@@ -1,15 +1,11 @@
 var mysql = require('mysql');
-var db = require('../config/db');
+var { conn, db } = require('../config/db');
 
-var conn = mysql.createConnection({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASS,
-});
+var connection = mysql.createConnection(conn);
 
-conn.query('CREATE DATABASE IF NOT EXISTS ' + process.env.DATABASE_NAME);
+connection.query('CREATE DATABASE IF NOT EXISTS ' + db.database);
 
-conn.query(`CREATE TABLE ${process.env.DATABASE_NAME} . users (
+connection.query(`CREATE TABLE ${db.database} . ${db.table} (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   username VARCHAR(20) NOT NULL,
   password CHAR(60) NOT NULL,
@@ -24,7 +20,7 @@ console.log(`
 **********************
 `);
 
-conn.end(err => {
+connection.end(err => {
   if (err) throw err;
   console.log('Connection closed');
 });
