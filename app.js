@@ -1,26 +1,33 @@
 const express = require('express');
 const path = require('path');
+const passport = require('passport');
+const app = express();
+const bodyParser = require('body-parser');
+const session = require('express-session');
+var flash = require('connect-flash');
 require('ejs');
 require('dotenv').config();
+require('./config/passport')(passport);
 
-const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-  res.render('homepage', {});
-});
+app.use(session({
+  secret: 's3cr3t',
+  resave: true,
+  saveUninitialized: true
+}));
 
-app.get('/login', (req, res) => {
-  res.render('login');
-});
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
-app.get('/register', (req, res) => {
-  res.render('register');
-});
+const SERVER_SECRET = 's3cr37';
+
+require('./routes/index.js')(app, passport, SERVER_SECRET);
 
 app.listen(process.env.PORT, (err) => {
   if (err) {
