@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const db = require('.config/mongoose');
+require('ejs');
 require('dotenv').config();
 
 const app = express();
@@ -11,7 +11,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  res.render('index', {});
+  res.render('homepage', {});
+});
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.get('/register', (req, res) => {
+  res.render('register');
 });
 
 app.listen(process.env.PORT, (err) => {
