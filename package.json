@@ -11,12 +11,17 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "connect-flash": "^0.1.1",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
     "flash": "^1.1.0",
+    "jsonwebtoken": "^7.4.3",
     "mysql": "^2.18.1",
     "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "session": "^0.1.0",
     "validator": "^13.12.0"

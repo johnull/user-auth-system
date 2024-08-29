@@ -1,19 +1,24 @@
 <form action="/login" method="post">
-  <h1>Login</h1>
+  <% if (message) { %>
+    <strong>
+      <%= message %>
+    </strong>
+    <% } %>
+      <h1>Login</h1>
 
-  <div>
-    <input type="email" name="email" , id="form-email" />
-    <label for="form-email">Email</label>
-  </div>
+      <div>
+        <input type="email" name="email" , id="form-email" />
+        <label for="form-email">Email</label>
+      </div>
 
-  <div>
-    <input type="password" name="password" , id="form-password" />
-    <label for="form-password">Password</label>
-  </div>
+      <div>
+        <input type="password" name="password" , id="form-password" />
+        <label for="form-password">Password</label>
+      </div>
 
-  </br>
+      </br>
 
-  <button type="submit">Sign in</button>
+      <button type="submit">Sign in</button>
 
-  <div>Create an account <a href="/register">Register</a></div>
+      <div>Create an account <a href="/register">Register</a></div>
 </form>

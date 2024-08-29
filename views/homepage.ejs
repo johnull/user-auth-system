@@ -1,0 +1,14 @@
+<head>
+  <title>Homepage</title>
+</head>
+
+<body>
+  <h2>Welcome, <%= user.name %>!</h2>
+  <strong>JWT Token:</strong>
+  <p style="font-size: 10px;">
+    <%= token %>
+  </p>
+
+  <strong>User Information:</strong>
+  <pre><%= JSON.stringify(user, null, 2) %></pre>
+</body>

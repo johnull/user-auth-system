@@ -1,6 +1,8 @@
+const authMiddleware = require('../middleware/auth');
+
 module.exports = (app, passport, SERVER_SECRET) => {
 
-  // ----- LOGIN -----
+  // ---------- LOGIN ------------
 
   // render login page
   app.get('/login', (req, res) => {
@@ -12,33 +14,22 @@ module.exports = (app, passport, SERVER_SECRET) => {
       if (err) return next(err);
 
       // user does not exist
-      if (!user) return res.render('login', { message: 'Invalid User or Password' });
+      if (!user) {
+        return res.redirect('/login');
+      }
 
       req.login(user, (err) => {
         if (err) return next(err);
 
-        const db = {
-          updateOrCreate: (user, cb) => {
-            cb(null, user);
-          }
-        };
-
-        db.updateOrCreate(req.user, (err, user) => {
-          if (err) return next(err);
-
-          req.user = {
-            id: user.email
-          };
-        });
-
         const jwt = require('jsonwebtoken');
+
         req.token = jwt.sign({
           id: req.user.id,
         }, SERVER_SECRET, {
           expiresIn: 120
         });
 
-        return res.status(200).json({
+        return res.render('homepage', {
           user: req.user,
           token: req.token
         });
@@ -46,12 +37,36 @@ module.exports = (app, passport, SERVER_SECRET) => {
     })(req, res, next);
   });
 
+  // ---------------------------------------------------
 
-  // ----- REGISTER ----
+
+  // ----- REGISTER -----
 
   app.get('/register', (req, res) => {
     res.render('register');
   });
 
+  app.get('/register/success', (req, res) => {
+    res.json({ message: 'User created' })
+  })
+
+  app.get('/register/failure', (req, res) => {
+    res.json({ message: 'This user alreay exists' });
+  });
+
+  app.post('/register', passport.authenticate('local-register', {
+    successRedirect: '/register/success',
+    failureRedirect: '/register/failure',
+    failureFlash: true
+  }));
+
+  // ----------------------------------------------------------
+
+  // ------------- PROTECTED ROUTES --------------------------
+
+  app.get('/api/profile', authMiddleware, (req, res) => {
+    res.json(req.user);
+  });
 };
+
 
