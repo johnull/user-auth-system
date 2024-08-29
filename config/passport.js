@@ -37,31 +37,35 @@ module.exports = (passport) => {
         connection.query(`
           SELECT *
           FROM users
-          WHERE email = ? 
-          `, [email],
+          WHERE email = ? `,
+          [email],
           (err, rows) => {
             if (err) {
               return done(err);
             }
+
             if (rows.length) {
               return done(null, false, req.flash('signupMessage', 'That email is already taken'));
             } else {
               var newUser = {
                 email: email,
-                password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+                password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
+                name: req.body.name
               };
 
-              var insert = `INSERT INTO users ( email, password ) values (?,?)`;
+              var insert = `INSERT INTO users (email, password, name) values (?,?,?)`;
 
-              connection.query(insert, [newUser.email, newUser.password],
-                (err, rows) => {
-                  newUser.id = rows.insertId;
+              connection.query(insert, [newUser.email, newUser.password, newUser.name],
+                (err, result) => {
+                  if (err) {
+                    return done(err);
+                  }
+                  newUser.id = result.insertId;
                   return done(null, newUser);
                 }
               );
             }
-          }
-        );
+          });
       })
   );
 
