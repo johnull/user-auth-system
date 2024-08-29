@@ -39,7 +39,7 @@ Start the server:
 npm start
 ```
 ### Usage
-To create user table for Passport signup and login, run `node scripts/create_database.js
+To create user table, run `node scripts/create_database.js`
 
 To **register** a new user, navigate to /register and fill out the registration form.
 
