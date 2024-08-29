@@ -27,6 +27,10 @@ app.use(flash());
 
 const SERVER_SECRET = 's3cr37';
 
+app.get('/', (req, res) => {
+  res.redirect('login');
+});
+
 require('./routes/index.js')(app, passport, SERVER_SECRET);
 
 app.listen(process.env.PORT, (err) => {
