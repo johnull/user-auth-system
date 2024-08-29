@@ -25,13 +25,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-const SERVER_SECRET = 's3cr37';
-
 app.get('/', (req, res) => {
   res.redirect('login');
 });
 
-require('./routes/index.js')(app, passport, SERVER_SECRET);
+require('./routes/index.js')(app, passport, process.env.SERVER_SECRET);
 
 app.listen(process.env.PORT, (err) => {
   if (err) {
