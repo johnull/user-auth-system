@@ -70,12 +70,4 @@ curl -H "Authorization: Bearer <your-jwt-token>" http://localhost:3000/api/profi
     * POST /register: Registers a new user.
     * GET /api/profile: Returns the authenticated user's profile. Requires JWT token.
 
-### Dependencies
-  `express`
-  `passport`
-  `jsonwebtoken`
-  `mysql`
-  `bcrypt`
-  `ejs`
-
 After logging in, you will receive a JWT token that you can use to access protected routes.
