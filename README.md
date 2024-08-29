@@ -14,6 +14,7 @@ Clone the repository to your local machine:
 ```bash
 git clone git@github.com:johnull/user-auth-system.git
 cd user-auth-system
+```
 
 Install dependencies:
 
