@@ -14,3 +14,16 @@ try {
 } catch (e) {
   console.log('Connection failed' + e);
 }
+
+const getUserById = (id, cb) => {
+  const query = 'SELECT id, name, email, password FROM users WHERE id = ? ';
+  conn.query(query, [id], (err, result) => {
+    if (err) return cb(err);
+
+    if (!result) return cb(null, null);
+
+    cb(null, result[0]);
+  });
+};
+
+module.exports = { getUserById };
